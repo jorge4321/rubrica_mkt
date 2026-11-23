@@ -1,0 +1,3227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rúbrica MKT — Evaluación de Presentaciones Finales (Canvas LMS)</title>
+  <meta name="description" content="Herramienta de evaluación por rúbrica para las presentaciones finales de Marketing (2627-88051-A INGLÉS) a lo largo de 3 días con ajustes individuales y exportación directa a Canvas LMS." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-canvas: #F6F5F1;
+      --bg-surface: #FFFFFF;
+      --bg-subtle: #F0EEE8;
+      --bg-hover: #F5F3EE;
+      --border-light: #E6E3DA;
+      --border-strong: #D3CEC2;
+
+      --ink-primary: #171D29;
+      --ink-secondary: #4B5568;
+      --ink-muted: #7B8494;
+
+      --navy: #16325C;
+      --navy-hover: #0F2443;
+      --navy-soft: #EBF1FA;
+      --navy-border: #C5D6EE;
+
+      --emerald: #137347;
+      --emerald-soft: #E7F6EE;
+      --emerald-border: #B3E2CA;
+
+      --amber: #A65107;
+      --amber-soft: #FEF4E4;
+      --amber-border: #F5D5A3;
+
+      --crimson: #B82222;
+      --crimson-soft: #FDECEC;
+      --crimson-border: #F4BEBE;
+
+      --shadow-xs: 0 1px 2px rgba(23, 29, 41, 0.04);
+      --shadow-sm: 0 2px 6px rgba(23, 29, 41, 0.06);
+      --shadow-md: 0 10px 28px rgba(23, 29, 41, 0.12);
+
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+
+      --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-canvas);
+      color: var(--ink-primary);
+      font-family: var(--font-sans);
+      font-size: 14px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button, input, select, textarea {
+      font-family: inherit;
+      font-size: inherit;
+      color: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .tabular {
+      font-variant-numeric: tabular-nums;
+      font-family: var(--font-mono);
+    }
+
+    /* ================= HEADER ================= */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-light);
+      height: 62px;
+      padding: 0 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+      background: var(--navy);
+      color: #FFFFFF;
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.02em;
+      flex-shrink: 0;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .brand-title {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      color: var(--ink-primary);
+      line-height: 1.2;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-sub {
+      font-size: 11.5px;
+      color: var(--ink-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .save-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--emerald);
+      background: var(--emerald-soft);
+      padding: 2px 8px;
+      border-radius: 999px;
+    }
+
+    .save-pill::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--emerald);
+    }
+
+    .view-switcher {
+      display: inline-flex;
+      background: var(--bg-subtle);
+      padding: 3px;
+      border-radius: 9px;
+      border: 1px solid var(--border-light);
+    }
+
+    .view-tab {
+      border: none;
+      background: transparent;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink-secondary);
+      transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .view-tab:hover {
+      color: var(--ink-primary);
+    }
+
+    .view-tab.active {
+      background: var(--bg-surface);
+      color: var(--navy);
+      box-shadow: var(--shadow-xs);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 8px 13px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      border: 1px solid var(--border-light);
+      background: var(--bg-surface);
+      color: var(--ink-primary);
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .btn:hover {
+      background: var(--bg-hover);
+      border-color: var(--border-strong);
+    }
+
+    .btn:active {
+      transform: translateY(0.5px);
+    }
+
+    .btn-primary {
+      background: var(--navy);
+      border-color: var(--navy);
+      color: #FFFFFF;
+    }
+
+    .btn-primary:hover {
+      background: var(--navy-hover);
+      border-color: var(--navy-hover);
+    }
+
+    .btn-danger-ghost {
+      color: var(--crimson);
+      border-color: var(--crimson-border);
+      background: var(--bg-surface);
+    }
+
+    .btn-danger-ghost:hover {
+      background: var(--crimson-soft);
+    }
+
+    .btn-sm {
+      padding: 5px 10px;
+      font-size: 12px;
+      border-radius: 7px;
+    }
+
+    .btn-badge {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 1px 6px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.18);
+      color: #FFFFFF;
+    }
+
+    .warn-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--amber);
+      display: inline-block;
+    }
+
+    /* ================= WORKSPACE LAYOUT ================= */
+    .workspace {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 20px 22px 48px;
+      display: grid;
+      grid-template-columns: 300px minmax(0, 1fr);
+      gap: 22px;
+      align-items: start;
+    }
+
+    .workspace.hidden, .summary-view.hidden {
+      display: none;
+    }
+
+    /* ================= SIDEBAR ================= */
+    .sidebar {
+      position: sticky;
+      top: 82px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-xs);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      max-height: calc(100vh - 102px);
+    }
+
+    .sidebar-header {
+      padding: 14px 14px 12px;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .sidebar-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--ink-muted);
+      margin-bottom: 9px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .day-filters {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 4px;
+      background: var(--bg-subtle);
+      padding: 3px;
+      border-radius: 8px;
+    }
+
+    .day-pill {
+      border: none;
+      background: transparent;
+      padding: 6px 4px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink-secondary);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1px;
+      transition: all 0.15s ease;
+    }
+
+    .day-pill small {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 500;
+      opacity: 0.78;
+    }
+
+    .day-pill:hover {
+      color: var(--ink-primary);
+    }
+
+    .day-pill.active {
+      background: var(--bg-surface);
+      color: var(--navy);
+      box-shadow: var(--shadow-xs);
+    }
+
+    .group-list {
+      overflow-y: auto;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .group-item {
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: var(--radius-md);
+      padding: 10px 11px 9px;
+      transition: all 0.15s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .group-item:hover {
+      background: var(--bg-hover);
+      border-color: var(--border-light);
+    }
+
+    .group-item.active {
+      background: var(--navy-soft);
+      border-color: var(--navy-border);
+    }
+
+    .group-item-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .group-item-name {
+      font-weight: 700;
+      font-size: 13.5px;
+      color: var(--ink-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .group-item.active .group-item-name {
+      color: var(--navy);
+    }
+
+    .group-score-chip {
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 6px;
+      flex-shrink: 0;
+    }
+
+    .chip-pending {
+      background: var(--bg-subtle);
+      color: var(--ink-muted);
+    }
+
+    .chip-partial {
+      background: var(--amber-soft);
+      color: var(--amber);
+    }
+
+    .chip-done {
+      background: var(--emerald-soft);
+      color: var(--emerald);
+    }
+
+    .group-item-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11.5px;
+      color: var(--ink-muted);
+    }
+
+    .day-tag {
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 1px 6px;
+      border-radius: 5px;
+      background: var(--bg-subtle);
+      color: var(--ink-secondary);
+    }
+
+    .group-item.active .day-tag {
+      background: #FFFFFF;
+      color: var(--navy);
+    }
+
+    .mini-progress {
+      height: 3px;
+      border-radius: 99px;
+      background: var(--bg-subtle);
+      overflow: hidden;
+    }
+
+    .mini-progress-bar {
+      height: 100%;
+      border-radius: 99px;
+      background: var(--navy);
+      transition: width 0.25s ease;
+    }
+
+    .mini-progress-bar.done {
+      background: var(--emerald);
+    }
+
+    .sidebar-footer {
+      padding: 12px 14px;
+      border-top: 1px solid var(--border-light);
+      background: #FAF9F6;
+      font-size: 12px;
+      color: var(--ink-secondary);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .sidebar-footer-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .empty-sidebar {
+      padding: 26px 14px;
+      text-align: center;
+      color: var(--ink-muted);
+      font-size: 12.5px;
+    }
+
+    /* ================= MAIN GRADING AREA ================= */
+    .grading-main {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      min-width: 0;
+    }
+
+    .group-scoreboard {
+      position: sticky;
+      top: 72px;
+      z-index: 25;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .scoreboard-left {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-width: 240px;
+    }
+
+    .scoreboard-title-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .scoreboard-title-row h1 {
+      margin: 0;
+      font-size: 21px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--ink-primary);
+      line-height: 1.2;
+    }
+
+    .member-count-pill {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink-secondary);
+      background: var(--bg-subtle);
+      padding: 3px 9px;
+      border-radius: 999px;
+    }
+
+    .day-assign-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .day-assign-label {
+      font-size: 12px;
+      color: var(--ink-muted);
+      font-weight: 500;
+    }
+
+    .day-segmented {
+      display: inline-flex;
+      background: var(--bg-subtle);
+      padding: 2px;
+      border-radius: 7px;
+      border: 1px solid var(--border-light);
+    }
+
+    .day-seg-btn {
+      border: none;
+      background: transparent;
+      padding: 4px 10px;
+      border-radius: 5px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink-secondary);
+      transition: all 0.15s ease;
+    }
+
+    .day-seg-btn:hover {
+      color: var(--ink-primary);
+    }
+
+    .day-seg-btn.active {
+      background: var(--navy);
+      color: #FFFFFF;
+    }
+
+    .scoreboard-right {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .score-breakdown {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 3px;
+      font-size: 12px;
+      color: var(--ink-secondary);
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 2px 9px;
+      border-radius: 999px;
+    }
+
+    .status-pending {
+      background: var(--bg-subtle);
+      color: var(--ink-muted);
+    }
+
+    .status-partial {
+      background: var(--amber-soft);
+      color: var(--amber);
+    }
+
+    .status-complete {
+      background: var(--emerald-soft);
+      color: var(--emerald);
+    }
+
+    .big-score-box {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+      background: var(--navy-soft);
+      border: 1px solid var(--navy-border);
+      padding: 8px 15px;
+      border-radius: 11px;
+    }
+
+    .big-score-val {
+      font-family: var(--font-mono);
+      font-size: 27px;
+      font-weight: 600;
+      color: var(--navy);
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+
+    .big-score-max {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--ink-muted);
+      font-weight: 500;
+    }
+
+    .scoreboard-nav {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ================= RUBRIC SECTIONS ================= */
+    .rubric-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-xs);
+      overflow: hidden;
+    }
+
+    .section-head {
+      padding: 14px 20px;
+      background: #FAF9F6;
+      border-bottom: 1px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--ink-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-weight-pill {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      font-weight: 600;
+      background: var(--navy-soft);
+      color: var(--navy);
+      padding: 2px 8px;
+      border-radius: 999px;
+    }
+
+    .section-meta {
+      font-size: 12.5px;
+      color: var(--ink-secondary);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .criterion-list {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .criterion-row {
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--border-light);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 14px;
+      align-items: center;
+      transition: background 0.12s ease;
+    }
+
+    .criterion-row:last-child {
+      border-bottom: none;
+    }
+
+    .criterion-row:hover {
+      background: #FCFBF9;
+    }
+
+    .criterion-info {
+      display: flex;
+      align-items: flex-start;
+      gap: 11px;
+      min-width: 0;
+    }
+
+    .criterion-code {
+      min-width: 34px;
+      height: 26px;
+      padding: 0 6px;
+      border-radius: 6px;
+      background: var(--bg-subtle);
+      color: var(--ink-secondary);
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      font-weight: 600;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .criterion-row.scored .criterion-code {
+      background: var(--navy-soft);
+      color: var(--navy);
+    }
+
+    .criterion-text {
+      min-width: 0;
+    }
+
+    .criterion-title-line {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .criterion-title {
+      font-weight: 600;
+      font-size: 13.5px;
+      color: var(--ink-primary);
+    }
+
+    .criterion-weight {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--ink-muted);
+      background: var(--bg-subtle);
+      padding: 1px 6px;
+      border-radius: 4px;
+    }
+
+    .criterion-desc {
+      font-size: 12px;
+      color: var(--ink-muted);
+      margin-top: 1px;
+    }
+
+    .criterion-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .level-group {
+      display: inline-flex;
+      background: var(--bg-subtle);
+      padding: 3px;
+      border-radius: 8px;
+      gap: 2px;
+      border: 1px solid var(--border-light);
+    }
+
+    .level-btn {
+      border: none;
+      background: transparent;
+      min-width: 54px;
+      padding: 5px 6px;
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      line-height: 1.15;
+      color: var(--ink-secondary);
+      transition: all 0.12s ease;
+    }
+
+    .level-btn .lvl-num {
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      font-weight: 600;
+    }
+
+    .level-btn .lvl-lbl {
+      font-size: 9.5px;
+      font-weight: 500;
+      opacity: 0.8;
+    }
+
+    .level-btn:hover {
+      background: rgba(255, 255, 255, 0.85);
+      color: var(--ink-primary);
+    }
+
+    .level-btn.active-0,
+    .level-btn.active-25 {
+      background: var(--crimson);
+      color: #FFFFFF;
+      box-shadow: var(--shadow-xs);
+    }
+
+    .level-btn.active-50 {
+      background: var(--amber);
+      color: #FFFFFF;
+      box-shadow: var(--shadow-xs);
+    }
+
+    .level-btn.active-75 {
+      background: var(--navy);
+      color: #FFFFFF;
+      box-shadow: var(--shadow-xs);
+    }
+
+    .level-btn.active-100 {
+      background: var(--emerald);
+      color: #FFFFFF;
+      box-shadow: var(--shadow-xs);
+    }
+
+    .fine-input-wrap {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .fine-input {
+      width: 62px;
+      height: 36px;
+      padding: 0 7px;
+      border: 1px solid var(--border-light);
+      border-radius: 7px;
+      background: var(--bg-surface);
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 600;
+      text-align: center;
+      color: var(--ink-primary);
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .fine-input:focus {
+      outline: none;
+      border-color: var(--navy);
+      box-shadow: 0 0 0 3px rgba(22, 50, 92, 0.12);
+    }
+
+    .fine-input.custom-val {
+      border-color: var(--navy);
+      background: var(--navy-soft);
+      color: var(--navy);
+    }
+
+    .clear-crit-btn {
+      width: 24px;
+      height: 24px;
+      border: none;
+      background: transparent;
+      color: var(--ink-muted);
+      border-radius: 5px;
+      display: grid;
+      place-items: center;
+      font-size: 14px;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.12s ease;
+    }
+
+    .criterion-row.scored .clear-crit-btn {
+      opacity: 0.7;
+      pointer-events: auto;
+    }
+
+    .criterion-row.scored .clear-crit-btn:hover {
+      opacity: 1;
+      background: var(--crimson-soft);
+      color: var(--crimson);
+    }
+
+    /* Group Notes */
+    .group-notes-box {
+      padding: 14px 20px;
+      background: #FAF9F6;
+      border-top: 1px solid var(--border-light);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .group-notes-box label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink-secondary);
+    }
+
+    .group-notes-textarea {
+      width: 100%;
+      min-height: 58px;
+      resize: vertical;
+      padding: 9px 12px;
+      border: 1px solid var(--border-light);
+      border-radius: 8px;
+      background: var(--bg-surface);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .group-notes-textarea:focus {
+      outline: none;
+      border-color: var(--navy);
+      box-shadow: 0 0 0 3px rgba(22, 50, 92, 0.1);
+    }
+
+    /* ================= INDIVIDUAL ADJUSTMENTS ================= */
+    .members-list {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .member-row {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border-light);
+      display: grid;
+      grid-template-columns: minmax(190px, 1.15fr) auto minmax(150px, 1fr) 115px;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .member-row:last-child {
+      border-bottom: none;
+    }
+
+    .member-identity {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      min-width: 0;
+    }
+
+    .avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--navy-soft);
+      color: var(--navy);
+      font-weight: 700;
+      font-size: 12px;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .member-names {
+      min-width: 0;
+    }
+
+    .member-display {
+      font-weight: 600;
+      font-size: 13.5px;
+      color: var(--ink-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .member-meta {
+      font-size: 11px;
+      color: var(--ink-muted);
+      font-family: var(--font-mono);
+    }
+
+    .adj-controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .adj-btn-group {
+      display: inline-flex;
+      background: var(--bg-subtle);
+      padding: 2px;
+      border-radius: 7px;
+      border: 1px solid var(--border-light);
+      gap: 1px;
+    }
+
+    .adj-btn {
+      border: none;
+      background: transparent;
+      padding: 5px 7px;
+      border-radius: 5px;
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--ink-secondary);
+      transition: all 0.12s ease;
+    }
+
+    .adj-btn:hover {
+      background: var(--bg-surface);
+      color: var(--ink-primary);
+    }
+
+    .adj-btn.neg:hover {
+      color: var(--crimson);
+      background: var(--crimson-soft);
+    }
+
+    .adj-btn.pos:hover {
+      color: var(--emerald);
+      background: var(--emerald-soft);
+    }
+
+    .adj-input {
+      width: 68px;
+      height: 32px;
+      padding: 0 6px;
+      border: 1px solid var(--border-light);
+      border-radius: 7px;
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      font-weight: 600;
+      text-align: center;
+      background: var(--bg-surface);
+    }
+
+    .adj-input:focus {
+      outline: none;
+      border-color: var(--navy);
+      box-shadow: 0 0 0 3px rgba(22, 50, 92, 0.1);
+    }
+
+    .adj-input.pos {
+      border-color: var(--emerald-border);
+      background: var(--emerald-soft);
+      color: var(--emerald);
+    }
+
+    .adj-input.neg {
+      border-color: var(--crimson-border);
+      background: var(--crimson-soft);
+      color: var(--crimson);
+    }
+
+    .member-note-input {
+      width: 100%;
+      height: 32px;
+      padding: 0 10px;
+      border: 1px solid var(--border-light);
+      border-radius: 7px;
+      font-size: 12.5px;
+      background: var(--bg-surface);
+    }
+
+    .member-note-input:focus {
+      outline: none;
+      border-color: var(--navy);
+      box-shadow: 0 0 0 3px rgba(22, 50, 92, 0.08);
+    }
+
+    .member-final-box {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 2px;
+    }
+
+    .member-final-score {
+      font-family: var(--font-mono);
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--ink-primary);
+      line-height: 1.1;
+    }
+
+    .member-final-score.muted {
+      color: var(--ink-muted);
+    }
+
+    .delta-pill {
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 1px 6px;
+      border-radius: 999px;
+    }
+
+    .delta-pos {
+      background: var(--emerald-soft);
+      color: var(--emerald);
+    }
+
+    .delta-neg {
+      background: var(--crimson-soft);
+      color: var(--crimson);
+    }
+
+    .delta-zero {
+      color: var(--ink-muted);
+    }
+
+    /* ================= SUMMARY VIEW ================= */
+    .summary-view {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 22px 22px 54px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .kpi-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 15px 18px;
+      box-shadow: var(--shadow-xs);
+    }
+
+    .kpi-label {
+      font-size: 11.5px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--ink-muted);
+    }
+
+    .kpi-value {
+      margin-top: 6px;
+      font-family: var(--font-mono);
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--ink-primary);
+    }
+
+    .kpi-sub {
+      margin-top: 2px;
+      font-size: 12px;
+      color: var(--ink-secondary);
+    }
+
+    .summary-toolbar {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .toolbar-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .search-input {
+      height: 34px;
+      width: 240px;
+      padding: 0 11px;
+      border: 1px solid var(--border-light);
+      border-radius: 7px;
+      font-size: 13px;
+      background: var(--bg-surface);
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--navy);
+      box-shadow: 0 0 0 3px rgba(22, 50, 92, 0.1);
+    }
+
+    .table-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-xs);
+      overflow: hidden;
+    }
+
+    .table-scroll {
+      overflow-x: auto;
+    }
+
+    table.summary-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    table.summary-table th {
+      text-align: left;
+      padding: 11px 14px;
+      background: #FAF9F6;
+      border-bottom: 1px solid var(--border-light);
+      font-size: 11.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--ink-muted);
+      white-space: nowrap;
+    }
+
+    table.summary-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border-light);
+      vertical-align: middle;
+    }
+
+    table.summary-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    table.summary-table tbody tr:hover {
+      background: #FCFBF9;
+    }
+
+    .link-group {
+      border: none;
+      background: none;
+      padding: 0;
+      font-weight: 600;
+      color: var(--navy);
+      text-decoration: underline;
+      text-decoration-color: rgba(22, 50, 92, 0.3);
+      text-underline-offset: 2px;
+    }
+
+    .link-group:hover {
+      text-decoration-color: var(--navy);
+    }
+
+    .num-col {
+      text-align: right;
+      font-family: var(--font-mono);
+      white-space: nowrap;
+    }
+
+    /* ================= MODALS ================= */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 80;
+      background: rgba(15, 23, 38, 0.45);
+      backdrop-filter: blur(3px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-backdrop.hidden {
+      display: none;
+    }
+
+    .modal {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      width: 100%;
+      max-width: 680px;
+      max-height: 88vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .modal-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .modal-header h3 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--ink-primary);
+    }
+
+    .modal-close {
+      width: 30px;
+      height: 30px;
+      border-radius: 7px;
+      border: none;
+      background: transparent;
+      font-size: 18px;
+      color: var(--ink-muted);
+      display: grid;
+      place-items: center;
+    }
+
+    .modal-close:hover {
+      background: var(--bg-subtle);
+      color: var(--ink-primary);
+    }
+
+    .modal-body {
+      padding: 18px 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .modal-footer {
+      padding: 14px 20px;
+      border-top: 1px solid var(--border-light);
+      background: #FAF9F6;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .weight-summary-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      border-radius: 9px;
+      border: 1px solid var(--border-light);
+      background: #FAF9F6;
+      font-size: 13px;
+    }
+
+    .weight-summary-bar.valid {
+      background: var(--emerald-soft);
+      border-color: var(--emerald-border);
+      color: var(--emerald);
+    }
+
+    .weight-summary-bar.invalid {
+      background: var(--amber-soft);
+      border-color: var(--amber-border);
+      color: var(--amber);
+    }
+
+    .weight-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .weight-group-label {
+      font-size: 11.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--ink-muted);
+      margin-top: 6px;
+    }
+
+    .weight-row {
+      display: grid;
+      grid-template-columns: 38px minmax(0, 1fr) 90px;
+      gap: 10px;
+      align-items: center;
+      padding: 6px 8px;
+      border-radius: 7px;
+      background: #FAF9F6;
+    }
+
+    .weight-input-wrap {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .weight-input {
+      width: 68px;
+      height: 30px;
+      padding: 0 7px;
+      border: 1px solid var(--border-light);
+      border-radius: 6px;
+      text-align: right;
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      font-weight: 600;
+      background: #FFFFFF;
+    }
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .form-field label {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--ink-secondary);
+    }
+
+    .text-input {
+      height: 38px;
+      padding: 0 12px;
+      border: 1px solid var(--border-light);
+      border-radius: 8px;
+      font-size: 13.5px;
+      background: #FFFFFF;
+    }
+
+    .text-input:focus {
+      outline: none;
+      border-color: var(--navy);
+      box-shadow: 0 0 0 3px rgba(22, 50, 92, 0.1);
+    }
+
+    .notice-box {
+      padding: 11px 14px;
+      border-radius: 9px;
+      font-size: 12.5px;
+      line-height: 1.5;
+      border: 1px solid var(--navy-border);
+      background: var(--navy-soft);
+      color: var(--navy);
+    }
+
+    .notice-box.warn {
+      border-color: var(--amber-border);
+      background: var(--amber-soft);
+      color: var(--amber);
+    }
+
+    .notice-box.ok {
+      border-color: var(--emerald-border);
+      background: var(--emerald-soft);
+      color: var(--emerald);
+    }
+
+    .csv-preview {
+      margin: 0;
+      padding: 12px;
+      border-radius: 8px;
+      background: #171D29;
+      color: #E4E9F2;
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      line-height: 1.55;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--ink-primary);
+      cursor: pointer;
+    }
+
+    .backup-card {
+      padding: 14px 16px;
+      border: 1px solid var(--border-light);
+      border-radius: 10px;
+      background: #FAF9F6;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .backup-card-text h4 {
+      margin: 0 0 2px;
+      font-size: 13.5px;
+      font-weight: 700;
+    }
+
+    .backup-card-text p {
+      margin: 0;
+      font-size: 12px;
+      color: var(--ink-secondary);
+    }
+
+    /* ================= TOAST ================= */
+    .toast {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      z-index: 100;
+      background: var(--ink-primary);
+      color: #FFFFFF;
+      padding: 11px 16px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 500;
+      box-shadow: var(--shadow-md);
+      transform: translateY(18px);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.22s ease;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* ================= RESPONSIVE ================= */
+    @media (max-width: 1080px) {
+      .workspace {
+        grid-template-columns: 1fr;
+      }
+      .sidebar {
+        position: static;
+        max-height: none;
+      }
+      .group-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      }
+      .group-scoreboard {
+        position: static;
+      }
+      .member-row {
+        grid-template-columns: 1fr auto;
+      }
+      .member-note-input {
+        grid-column: 1 / -1;
+      }
+      .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 760px) {
+      .topbar {
+        height: auto;
+        padding: 10px 14px;
+        flex-wrap: wrap;
+      }
+      .criterion-row {
+        grid-template-columns: 1fr;
+      }
+      .criterion-controls {
+        justify-content: space-between;
+        flex-wrap: wrap;
+      }
+      .level-btn {
+        min-width: 46px;
+      }
+      .kpi-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- ================= TOPBAR ================= -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">MKT</div>
+      <div class="brand-text">
+        <div class="brand-title">
+          <span>Rúbrica Presentaciones</span>
+          <span class="save-pill" id="saveStatus" title="Todos los cambios se guardan automáticamente en este navegador">Guardado</span>
+        </div>
+        <div class="brand-sub">2627-88051-A INGLÉS · 9 grupos · 40 alumnos</div>
+      </div>
+    </div>
+
+    <nav class="view-switcher" aria-label="Cambiar vista">
+      <button type="button" class="view-tab active" id="tabEvaluate" data-view="evaluate">Evaluar Grupos</button>
+      <button type="button" class="view-tab" id="tabSummary" data-view="summary">Resumen (40 alumnos)</button>
+    </nav>
+
+    <div class="header-actions">
+      <button type="button" class="btn" id="btnWeights" title="Configurar pesos de la rúbrica">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+        <span>Pesos</span>
+        <span class="warn-dot" id="weightWarnDot" style="display:none" title="La suma de pesos no es 100%"></span>
+      </button>
+      <button type="button" class="btn" id="btnBackup" title="Guardar o restaurar copia de seguridad entre días">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+        <span>Respaldo</span>
+      </button>
+      <button type="button" class="btn btn-primary" id="btnExportModal">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        <span>Exportar CSV Canvas</span>
+        <span class="btn-badge" id="exportCountBadge">0/40</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ================= EVALUATE WORKSPACE ================= -->
+  <div class="workspace" id="evaluateWorkspace">
+    <aside class="sidebar" aria-label="Lista de grupos por día">
+      <div class="sidebar-header">
+        <div class="sidebar-label">
+          <span>Jornadas de presentación</span>
+          <span class="tabular" id="sidebarDaySummary">9 grupos</span>
+        </div>
+        <div class="day-filters" id="dayFilters" role="tablist" aria-label="Filtrar grupos por día">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+
+      <div class="group-list" id="groupList">
+        <!-- Populated dynamically -->
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-footer-row">
+          <span>Progreso global</span>
+          <strong class="tabular" id="globalProgressText">0/9 grupos</strong>
+        </div>
+        <div class="mini-progress" style="height:5px;">
+          <div class="mini-progress-bar" id="globalProgressBar" style="width:0%"></div>
+        </div>
+        <div class="sidebar-footer-row" style="font-size:11px; color:var(--ink-muted);">
+          <span id="globalStudentsText">0 de 40 alumnos con nota</span>
+        </div>
+      </div>
+    </aside>
+
+    <main class="grading-main" id="gradingMain">
+      <!-- Populated dynamically for selected group -->
+    </main>
+  </div>
+
+  <!-- ================= SUMMARY VIEW ================= -->
+  <section class="summary-view hidden" id="summaryView" aria-label="Resumen general de calificaciones">
+    <div class="kpi-grid" id="summaryKpis"></div>
+
+    <div class="summary-toolbar">
+      <div class="toolbar-left">
+        <div class="day-segmented" id="summaryDayFilter" role="tablist" aria-label="Filtrar resumen por día"></div>
+        <input type="search" class="search-input" id="summarySearch" placeholder="Buscar alumno o grupo..." aria-label="Buscar alumno o grupo" />
+      </div>
+      <div class="toolbar-left">
+        <div class="day-segmented" id="summarySortToggle" aria-label="Orden de la tabla">
+          <button type="button" class="day-seg-btn active" data-sort="canvas">Orden Canvas (A–Z)</button>
+          <button type="button" class="day-seg-btn" data-sort="group">Por Grupo</button>
+        </div>
+        <button type="button" class="btn btn-primary btn-sm" id="btnExportFromSummary">Exportar CSV Canvas</button>
+      </div>
+    </div>
+
+    <div class="table-card">
+      <div class="table-scroll">
+        <table class="summary-table">
+          <thead>
+            <tr>
+              <th>Alumno (Canvas)</th>
+              <th>Grupo</th>
+              <th>Día</th>
+              <th class="num-col">Nota Grupo</th>
+              <th class="num-col">Ajuste Ind.</th>
+              <th class="num-col">Nota Final</th>
+              <th>Estado / Observación</th>
+            </tr>
+          </thead>
+          <tbody id="summaryTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= MODAL: WEIGHTS ================= -->
+  <div class="modal-backdrop hidden" id="weightsModal" role="dialog" aria-modal="true" aria-labelledby="weightsModalTitle">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="weightsModalTitle">Configurar pesos de la rúbrica</h3>
+        <button type="button" class="modal-close" data-close-modal="weightsModal" aria-label="Cerrar">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="weight-summary-bar valid" id="weightsSumBar">
+          <span id="weightsBlockSplit">Contenido: 75.0% · Exposición: 25.0%</span>
+          <strong class="tabular" id="weightsTotalLabel">Total: 100.0%</strong>
+        </div>
+        <div class="weight-grid" id="weightsGrid"></div>
+      </div>
+      <div class="modal-footer">
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <button type="button" class="btn btn-sm" id="btnNormalizeWeights">Normalizar a 100%</button>
+          <button type="button" class="btn btn-sm" id="btnResetWeights">Restaurar por defecto</button>
+        </div>
+        <button type="button" class="btn btn-primary btn-sm" id="btnSaveWeights">Aplicar y cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL: EXPORT CSV ================= -->
+  <div class="modal-backdrop hidden" id="exportModal" role="dialog" aria-modal="true" aria-labelledby="exportModalTitle">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="exportModalTitle">Exportar calificaciones para Canvas LMS</h3>
+        <button type="button" class="modal-close" data-close-modal="exportModal" aria-label="Cerrar">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-field">
+          <label for="canvasColumnName">Nombre de la nueva columna de tarea en Canvas (10 puntos posibles)</label>
+          <input type="text" id="canvasColumnName" class="text-input" value="Final Project Presentation" />
+        </div>
+
+        <div id="exportStatusNotice" class="notice-box"></div>
+
+        <label class="checkbox-row">
+          <input type="checkbox" id="includePartialGroups" checked />
+          <span>Incluir también grupos parcialmente evaluados (los pendientes sin ningún criterio quedan vacíos para no asignar 0)</span>
+        </label>
+
+        <div class="form-field">
+          <label>Vista previa del CSV generado (primeras líneas)</label>
+          <pre class="csv-preview" id="csvPreviewBox"></pre>
+        </div>
+
+        <div class="notice-box" style="font-size:12px;">
+          <strong>Cómo subirlo en Canvas:</strong> Ve a <em>Calificaciones</em> → <em>Importar</em> → selecciona el archivo descargado. Canvas reconocerá a los 40 alumnos por su <code>ID</code> y <code>SIS Login ID</code> y te confirmará la creación de la nueva tarea sobre <strong>10.00 puntos</strong>.
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-sm" data-close-modal="exportModal">Cancelar</button>
+        <button type="button" class="btn btn-primary" id="btnDownloadCsv">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span>Descargar CSV para Canvas</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL: BACKUP ================= -->
+  <div class="modal-backdrop hidden" id="backupModal" role="dialog" aria-modal="true" aria-labelledby="backupModalTitle">
+    <div class="modal" style="max-width:560px;">
+      <div class="modal-header">
+        <h3 id="backupModalTitle">Copia de seguridad y gestión de datos</h3>
+        <button type="button" class="modal-close" data-close-modal="backupModal" aria-label="Cerrar">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="backup-card">
+          <div class="backup-card-text">
+            <h4>Descargar copia de seguridad (JSON)</h4>
+            <p>Guarda todas las evaluaciones, ajustes individuales, días asignados y pesos por si cambias de ordenador entre los 3 días.</p>
+          </div>
+          <button type="button" class="btn btn-primary btn-sm" id="btnExportJson">Descargar JSON</button>
+        </div>
+
+        <div class="backup-card">
+          <div class="backup-card-text">
+            <h4>Restaurar copia de seguridad</h4>
+            <p>Carga un archivo <code>.json</code> exportado previamente para continuar una sesión anterior.</p>
+          </div>
+          <div>
+            <input type="file" id="jsonFileInput" accept=".json,application/json" style="display:none" />
+            <button type="button" class="btn btn-sm" id="btnImportJson">Seleccionar JSON</button>
+          </div>
+        </div>
+
+        <div class="backup-card" style="border-color: var(--crimson-border); background: #FFF8F8;">
+          <div class="backup-card-text">
+            <h4 style="color:var(--crimson);">Reiniciar todas las evaluaciones</h4>
+            <p>Borra todas las puntuaciones, notas y ajustes individuales de los 9 grupos (mantiene los pesos y la lista de alumnos).</p>
+          </div>
+          <button type="button" class="btn btn-danger-ghost btn-sm" id="btnResetAll">Reiniciar todo</button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <span style="font-size:12px; color:var(--ink-muted);">Guardado automático activo en almacenamiento local del navegador.</span>
+        <button type="button" class="btn btn-sm" data-close-modal="backupModal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= TOAST ================= -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    (function () {
+      "use strict";
+
+      /* ================================================================
+         CANONICAL DATA: 9 GROUPS & 40 STUDENTS (EXACT CANVAS CSV ORDER)
+         ================================================================ */
+      const STORAGE_KEY = "rubrica_mkt_2627_88051_v1";
+
+      const DEFAULT_GROUPS = [
+        { id: "bee-better", name: "Bee Better", defaultDay: 1 },
+        { id: "care-tag", name: "Care-Tag", defaultDay: 1 },
+        { id: "dryden", name: "Dryden", defaultDay: 1 },
+        { id: "fresh-track", name: "Fresh Track", defaultDay: 2 },
+        { id: "geofly", name: "GeoFly", defaultDay: 2 },
+        { id: "medisafe", name: "Medisafe", defaultDay: 2 },
+        { id: "parasol", name: "Parasol", defaultDay: 3 },
+        { id: "senoritas-en-madrid", name: "Señoritas en Madrid", defaultDay: 3 },
+        { id: "the-steamers", name: "The Steamers", defaultDay: 3 }
+      ];
+
+      // Exact order and fields from 2026-11-23T1448_Calificaciones-2627-VI-1-88051-A_INGLÉS.csv
+      const STUDENTS = [
+        { canvasName: "Allan , Makena", displayName: "Makena Allan", id: "113628", sisLoginId: "AN447839", section: "2627-88051-A INGLÉS", groupId: "senoritas-en-madrid" },
+        { canvasName: "Bonnabel , Lilou Marie Ginette", displayName: "Lilou Marie Ginette Bonnabel", id: "113392", sisLoginId: "P4KHNPD67", section: "2627-88051-A INGLÉS", groupId: "parasol" },
+        { canvasName: "Boullail , Ayoub", displayName: "Ayoub Boullail", id: "113447", sisLoginId: "26DD55615", section: "2627-88051-A INGLÉS", groupId: "medisafe" },
+        { canvasName: "Brezzo , Beatrice", displayName: "Beatrice Brezzo", id: "113367", sisLoginId: "CA09378UI", section: "2627-88051-A INGLÉS", groupId: "the-steamers" },
+        { canvasName: "Briseño Obregón, María Fernanda", displayName: "María Fernanda Briseño Obregón", id: "113565", sisLoginId: "N21375492", section: "2627-88051-A INGLÉS", groupId: "fresh-track" },
+        { canvasName: "Coen , Senay Leonie", displayName: "Senay Leonie Coen", id: "113394", sisLoginId: "L73YC7KNX", section: "2627-88051-A INGLÉS", groupId: "dryden" },
+        { canvasName: "Echeverría Clasing, Paula", displayName: "Paula Echeverría Clasing", id: "115751", sisLoginId: "XDE652471", section: "2627-88051-A INGLÉS", groupId: "fresh-track" },
+        { canvasName: "Foti , Giorgio", displayName: "Giorgio Foti", id: "113705", sisLoginId: "CA99237XB", section: "2627-88051-A INGLÉS", groupId: "fresh-track" },
+        { canvasName: "Friderich Diego, Yanick Alexander", displayName: "Yanick Alexander Friderich Diego", id: "113504", sisLoginId: "56295910", section: "2627-88051-A INGLÉS", groupId: "care-tag" },
+        { canvasName: "Herschbach , Pauline", displayName: "Pauline Herschbach", id: "113479", sisLoginId: "L77KPR32H", section: "2627-88051-A INGLÉS", groupId: "dryden" },
+        { canvasName: "Horning , Kara Rose", displayName: "Kara Rose Horning", id: "113588", sisLoginId: "A6664299", section: "2627-88051-A INGLÉS", groupId: "parasol" },
+        { canvasName: "Kähler  Lilly", displayName: "Lilly Kähler", id: "113458", sisLoginId: "C95XC9FP1", section: "2627-88051-A INGLÉS", groupId: "medisafe" },
+        { canvasName: "Klok , Mia", displayName: "Mia Klok", id: "113681", sisLoginId: "AN240976", section: "2627-88051-A INGLÉS", groupId: "geofly" },
+        { canvasName: "Kneppers , Mara", displayName: "Mara Kneppers", id: "113373", sisLoginId: "ITK8BB1J7", section: "2627-88051-A INGLÉS", groupId: "dryden" },
+        { canvasName: "Magiera , Leticia Vanessa", displayName: "Leticia Vanessa Magiera", id: "113389", sisLoginId: "L8LKT41GP", section: "2627-88051-A INGLÉS", groupId: "care-tag" },
+        { canvasName: "Monette Christian, Maleah Lynn", displayName: "Maleah Lynn Monette Christian", id: "113590", sisLoginId: "AW834838", section: "2627-88051-A INGLÉS", groupId: "dryden" },
+        { canvasName: "Nerantzaki , Ekaterini", displayName: "Ekaterini Nerantzaki", id: "113529", sisLoginId: "L8HNR6TM7", section: "2627-88051-A INGLÉS", groupId: "medisafe" },
+        { canvasName: "Oliveti , Mattia", displayName: "Mattia Oliveti", id: "113492", sisLoginId: "CA99438MM", section: "2627-88051-A INGLÉS", groupId: "care-tag" },
+        { canvasName: "Overgaard , Emily Anna", displayName: "Emily Anna Overgaard", id: "113490", sisLoginId: "EA3103590", section: "2627-88051-A INGLÉS", groupId: "bee-better" },
+        { canvasName: "Palffy , Levente", displayName: "Levente Palffy", id: "113446", sisLoginId: "338093NE", section: "2627-88051-A INGLÉS", groupId: "bee-better" },
+        { canvasName: "Patel , Gracey", displayName: "Gracey Patel", id: "113578", sisLoginId: "P513374NG", section: "2627-88051-A INGLÉS", groupId: "fresh-track" },
+        { canvasName: "Petruzzi , Sara", displayName: "Sara Petruzzi", id: "113456", sisLoginId: "CA86885NY", section: "2627-88051-A INGLÉS", groupId: "medisafe" },
+        { canvasName: "Podlesnik , Savannah", displayName: "Savannah Podlesnik", id: "113730", sisLoginId: "P507899DP", section: "2627-88051-A INGLÉS", groupId: "care-tag" },
+        { canvasName: "Power , Aoife Mary", displayName: "Aoife Mary Power", id: "113409", sisLoginId: "PL0899518", section: "2627-88051-A INGLÉS", groupId: "senoritas-en-madrid" },
+        { canvasName: "Ramirez , Mélissa Julia", displayName: "Mélissa Julia Ramirez", id: "113542", sisLoginId: "JZVBZB5W2", section: "2627-88051-A INGLÉS", groupId: "senoritas-en-madrid" },
+        { canvasName: "Rebec , Emma", displayName: "Emma Rebec", id: "114242", sisLoginId: "041732286", section: "2627-88051-A INGLÉS", groupId: "geofly" },
+        { canvasName: "Santonicola , Valentina", displayName: "Valentina Santonicola", id: "113352", sisLoginId: "CA00462NQ", section: "2627-88051-A INGLÉS", groupId: "senoritas-en-madrid" },
+        { canvasName: "Schoning , Can Nelio", displayName: "Can Nelio Schoning", id: "113755", sisLoginId: "L6X57RLW9", section: "2627-88051-A INGLÉS", groupId: "the-steamers" },
+        { canvasName: "Simonini , Martina", displayName: "Martina Simonini", id: "113374", sisLoginId: "CA61188UD", section: "2627-88051-A INGLÉS", groupId: "medisafe" },
+        { canvasName: "Sviklane , Veronika", displayName: "Veronika Sviklane", id: "113384", sisLoginId: "PA2590828", section: "2627-88051-A INGLÉS", groupId: "bee-better" },
+        { canvasName: "Tepers , Gustavs", displayName: "Gustavs Tepers", id: "113551", sisLoginId: "PA2660155", section: "2627-88051-A INGLÉS", groupId: "bee-better" },
+        { canvasName: "Tornquist , Hedda Helena", displayName: "Hedda Helena Tornquist", id: "113400", sisLoginId: "AA3705764", section: "2627-88051-A INGLÉS", groupId: "the-steamers" },
+        { canvasName: "Tunne , Betija", displayName: "Betija Tunne", id: "113532", sisLoginId: "PA4038828", section: "2627-88051-A INGLÉS", groupId: "geofly" },
+        { canvasName: "Valeri , Chiara", displayName: "Chiara Valeri", id: "113466", sisLoginId: "CA00162RA", section: "2627-88051-A INGLÉS", groupId: "fresh-track" },
+        { canvasName: "van Hennik , Nona", displayName: "Nona van Hennik", id: "113520", sisLoginId: "NX22C4J54", section: "2627-88051-A INGLÉS", groupId: "parasol" },
+        { canvasName: "Yilmaz , Cemil", displayName: "Cemil Yilmaz", id: "113698", sisLoginId: "U39847668", section: "2627-88051-A INGLÉS", groupId: "geofly" },
+        { canvasName: "Yim , Kyungryul", displayName: "Kyungryul Yim", id: "113693", sisLoginId: "M171Y8356", section: "2627-88051-A INGLÉS", groupId: "parasol" },
+        { canvasName: "Zabalegui Zaragoza, Daniela", displayName: "Daniela Zabalegui Zaragoza", id: "113616", sisLoginId: "N23909150", section: "2627-88051-A INGLÉS", groupId: "senoritas-en-madrid" },
+        { canvasName: "Ziemerink , Noortje Ilse", displayName: "Noortje Ilse Ziemerink", id: "113449", sisLoginId: "NRKJFB7P5", section: "2627-88051-A INGLÉS", groupId: "parasol" },
+        { canvasName: "Zollner , Patrick", displayName: "Patrick Zollner", id: "113467", sisLoginId: "LF449CRFK", section: "2627-88051-A INGLÉS", groupId: "bee-better" }
+      ];
+
+      const CRITERIA = [
+        // Block A — Content (75%)
+        { id: "c1", block: "content", code: "1", title: "Product description & sketch", desc: "Descripción clara del producto/servicio y boceto o prototipo visual", defaultWeight: 6 },
+        { id: "c2", block: "content", code: "2", title: "Value Proposition", desc: "Propuesta de valor clara, diferencial y orientada al problema del cliente", defaultWeight: 7 },
+        { id: "c3", block: "content", code: "3", title: "Target Customer, Buyer Persona & Story Brand", desc: "Definición del cliente objetivo, buyer persona y narrativa Story Brand", defaultWeight: 7 },
+        { id: "c4", block: "content", code: "4", title: "Competition Analysis", desc: "Identificación de competidores directos/indirectos y ventajas competitivas", defaultWeight: 6 },
+        { id: "c5", block: "content", code: "5", title: "Market Segmentation", desc: "Criterios de segmentación coherentes y selección del segmento foco", defaultWeight: 6 },
+        { id: "c6", block: "content", code: "6", title: "Values, Mission & Vision Statements", desc: "Coherencia e identidad de valores, misión y visión del proyecto", defaultWeight: 5 },
+        { id: "c7", block: "content", code: "7", title: "SWOT Analysis", desc: "Análisis DAFO riguroso (Strengths, Weaknesses, Opportunities, Threats)", defaultWeight: 6 },
+        { id: "c8", block: "content", code: "8", title: "Pricing Policy", desc: "Estrategia de precios justificada con posicionamiento y competencia", defaultWeight: 7 },
+        { id: "c9", block: "content", code: "9", title: "Branding & Promotional Plan", desc: "Identidad de marca, mensajes clave y plan promocional coherente", defaultWeight: 7 },
+        { id: "c10a", block: "content", code: "10A", title: "Online — Website", desc: "Calidad del sitio web y enlace funcional incluido en Google Slides", defaultWeight: 4 },
+        { id: "c10b", block: "content", code: "10B", title: "Online — Analytics", desc: "Configuración/planteamiento de analítica y enlaces en Google Slides", defaultWeight: 4 },
+        { id: "c10c", block: "content", code: "10C", title: "Online — SEO", desc: "Search Engine Optimization: palabras clave, optimización y visibilidad", defaultWeight: 4 },
+        { id: "c11", block: "content", code: "11", title: "Placement Strategy (Selling Channels)", desc: "Estrategia de distribución y canales de venta adecuados al producto", defaultWeight: 6 },
+        // Block B — Delivery (25%)
+        { id: "c12", block: "delivery", code: "12", title: "Comunicación y Oratoria", desc: "Claridad, fluidez en inglés, presencia escénica y coordinación grupal", defaultWeight: 8 },
+        { id: "c13", block: "delivery", code: "13", title: "Diseño Visual de las Slides", desc: "Estética profesional, legibilidad, síntesis visual y enlaces activos", defaultWeight: 6 },
+        { id: "c14", block: "delivery", code: "14", title: "Gestión del Tiempo (20 minutos)", desc: "Ajuste al tiempo estipulado de 20 min y reparto equilibrado entre miembros", defaultWeight: 5 },
+        { id: "c15", block: "delivery", code: "15", title: "Turno de Preguntas (Q&A)", desc: "Solidez en las respuestas, pensamiento crítico y dominio del marketing", defaultWeight: 6 }
+      ];
+
+      const LEVELS = [
+        { val: 0, label: "No", cls: "active-0" },
+        { val: 2.5, label: "Insuf.", cls: "active-25" },
+        { val: 5, label: "Suf.", cls: "active-50" },
+        { val: 7.5, label: "Not.", cls: "active-75" },
+        { val: 10, label: "Exc.", cls: "active-100" }
+      ];
+
+      /* ================================================================
+         STATE MANAGEMENT
+         ================================================================ */
+      function buildDefaultState() {
+        const weights = {};
+        CRITERIA.forEach(c => { weights[c.id] = c.defaultWeight; });
+
+        const groups = {};
+        DEFAULT_GROUPS.forEach(g => {
+          groups[g.id] = {
+            day: g.defaultDay,
+            scores: {},
+            notes: ""
+          };
+        });
+
+        const studentAdjustments = {};
+        STUDENTS.forEach(s => {
+          studentAdjustments[s.id] = { delta: 0, note: "" };
+        });
+
+        return {
+          version: 1,
+          weights,
+          groups,
+          studentAdjustments,
+          canvasColumnName: "Final Project Presentation"
+        };
+      }
+
+      function loadState() {
+        const base = buildDefaultState();
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) return base;
+          const parsed = JSON.parse(raw);
+          if (!parsed || typeof parsed !== "object") return base;
+
+          if (parsed.weights) {
+            CRITERIA.forEach(c => {
+              const w = Number(parsed.weights[c.id]);
+              if (Number.isFinite(w) && w >= 0) base.weights[c.id] = w;
+            });
+          }
+          if (parsed.groups) {
+            DEFAULT_GROUPS.forEach(g => {
+              const saved = parsed.groups[g.id];
+              if (saved && typeof saved === "object") {
+                if ([1, 2, 3].includes(Number(saved.day))) {
+                  base.groups[g.id].day = Number(saved.day);
+                }
+                if (saved.scores && typeof saved.scores === "object") {
+                  CRITERIA.forEach(c => {
+                    const v = saved.scores[c.id];
+                    if (v !== null && v !== undefined && v !== "" && Number.isFinite(Number(v))) {
+                      base.groups[g.id].scores[c.id] = clamp(Number(v), 0, 10);
+                    }
+                  });
+                }
+                if (typeof saved.notes === "string") {
+                  base.groups[g.id].notes = saved.notes;
+                }
+              }
+            });
+          }
+          if (parsed.studentAdjustments) {
+            STUDENTS.forEach(s => {
+              const saved = parsed.studentAdjustments[s.id];
+              if (saved && typeof saved === "object") {
+                const d = Number(saved.delta);
+                if (Number.isFinite(d)) base.studentAdjustments[s.id].delta = clamp(d, -10, 10);
+                if (typeof saved.note === "string") base.studentAdjustments[s.id].note = saved.note;
+              }
+            });
+          }
+          if (typeof parsed.canvasColumnName === "string" && parsed.canvasColumnName.trim()) {
+            base.canvasColumnName = parsed.canvasColumnName;
+          }
+        } catch (err) {
+          console.warn("No se pudo leer el estado guardado:", err);
+        }
+        return base;
+      }
+
+      let state = loadState();
+      let ui = {
+        view: "evaluate",       // "evaluate" | "summary"
+        dayFilter: "all",       // "all" | 1 | 2 | 3
+        selectedGroupId: DEFAULT_GROUPS[0].id,
+        summaryDayFilter: "all",
+        summarySearch: "",
+        summarySort: "canvas"   // "canvas" | "group"
+      };
+
+      let saveTimeout = null;
+      function persistState() {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+          const pill = document.getElementById("saveStatus");
+          if (pill) {
+            pill.textContent = "Guardando...";
+            clearTimeout(saveTimeout);
+            saveTimeout = setTimeout(() => { pill.textContent = "Guardado"; }, 420);
+          }
+        } catch (err) {
+          console.error("Error al guardar en localStorage:", err);
+        }
+      }
+
+      /* ================================================================
+         CALCULATIONS & HELPERS
+         ================================================================ */
+      function clamp(val, min, max) {
+        return Math.min(max, Math.max(min, val));
+      }
+
+      function round2(val) {
+        return Math.round((val + Number.EPSILON) * 100) / 100;
+      }
+
+      function fmt2(val) {
+        return round2(val).toFixed(2);
+      }
+
+      function escapeHtml(str) {
+        return String(str)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      function getInitials(displayName) {
+        const parts = displayName.trim().split(/\s+/).filter(Boolean);
+        if (!parts.length) return "?";
+        if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+        return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+      }
+
+      function getTotalWeights() {
+        let content = 0;
+        let delivery = 0;
+        CRITERIA.forEach(c => {
+          const w = Number(state.weights[c.id]) || 0;
+          if (c.block === "content") content += w;
+          else delivery += w;
+        });
+        return { content: round2(content), delivery: round2(delivery), total: round2(content + delivery) };
+      }
+
+      function computeGroupStats(groupId) {
+        const gData = state.groups[groupId];
+        const scores = gData.scores || {};
+        let scoredCount = 0;
+        let scoredWeightSum = 0;
+        let weightedScoreSum = 0;
+
+        let contentScored = 0;
+        let contentWeightScored = 0;
+        let contentWeightedSum = 0;
+        let contentTotalWeight = 0;
+
+        let deliveryScored = 0;
+        let deliveryWeightScored = 0;
+        let deliveryWeightedSum = 0;
+        let deliveryTotalWeight = 0;
+
+        CRITERIA.forEach(c => {
+          const w = Number(state.weights[c.id]) || 0;
+          if (c.block === "content") contentTotalWeight += w;
+          else deliveryTotalWeight += w;
+
+          const val = scores[c.id];
+          if (val !== undefined && val !== null && val !== "" && Number.isFinite(Number(val))) {
+            const num = clamp(Number(val), 0, 10);
+            scoredCount++;
+            scoredWeightSum += w;
+            weightedScoreSum += num * w;
+
+            if (c.block === "content") {
+              contentScored++;
+              contentWeightScored += w;
+              contentWeightedSum += num * w;
+            } else {
+              deliveryScored++;
+              deliveryWeightScored += w;
+              deliveryWeightedSum += num * w;
+            }
+          }
+        });
+
+        const totalCriteria = CRITERIA.length;
+        const status = scoredCount === 0 ? "pending" : (scoredCount === totalCriteria ? "complete" : "partial");
+        const groupScore = scoredWeightSum > 0 ? round2(weightedScoreSum / scoredWeightSum) : null;
+
+        const contentAvg = contentWeightScored > 0 ? round2(contentWeightedSum / contentWeightScored) : null;
+        const deliveryAvg = deliveryWeightScored > 0 ? round2(deliveryWeightedSum / deliveryWeightScored) : null;
+
+        return {
+          status,
+          scoredCount,
+          totalCriteria,
+          groupScore,
+          contentScored,
+          contentTotal: CRITERIA.filter(c => c.block === "content").length,
+          contentAvg,
+          contentTotalWeight: round2(contentTotalWeight),
+          deliveryScored,
+          deliveryTotal: CRITERIA.filter(c => c.block === "delivery").length,
+          deliveryAvg,
+          deliveryTotalWeight: round2(deliveryTotalWeight)
+        };
+      }
+
+      function computeStudentGrade(student) {
+        const gStats = computeGroupStats(student.groupId);
+        const adj = state.studentAdjustments[student.id] || { delta: 0, note: "" };
+        const delta = Number(adj.delta) || 0;
+        if (gStats.groupScore === null) {
+          return { groupScore: null, delta, finalScore: null, clamped: false, note: adj.note || "", status: gStats.status };
+        }
+        const rawFinal = round2(gStats.groupScore + delta);
+        const finalScore = round2(clamp(rawFinal, 0, 10));
+        return {
+          groupScore: gStats.groupScore,
+          delta: round2(delta),
+          finalScore,
+          clamped: Math.abs(rawFinal - finalScore) > 0.001,
+          note: adj.note || "",
+          status: gStats.status
+        };
+      }
+
+      function getGroupMembers(groupId) {
+        return STUDENTS.filter(s => s.groupId === groupId);
+      }
+
+      function getFilteredGroups(dayFilter) {
+        if (dayFilter === "all") return DEFAULT_GROUPS;
+        return DEFAULT_GROUPS.filter(g => state.groups[g.id].day === Number(dayFilter));
+      }
+
+      /* ================================================================
+         RENDERING: HEADER & SIDEBAR
+         ================================================================ */
+      function updateHeaderBadges() {
+        const wt = getTotalWeights();
+        const dot = document.getElementById("weightWarnDot");
+        if (dot) dot.style.display = Math.abs(wt.total - 100) > 0.01 ? "inline-block" : "none";
+
+        let gradedStudents = 0;
+        let completeGroups = 0;
+        DEFAULT_GROUPS.forEach(g => {
+          const st = computeGroupStats(g.id);
+          if (st.status === "complete") completeGroups++;
+          if (st.groupScore !== null) gradedStudents += getGroupMembers(g.id).length;
+        });
+
+        const badge = document.getElementById("exportCountBadge");
+        if (badge) badge.textContent = `${gradedStudents}/${STUDENTS.length}`;
+
+        const progText = document.getElementById("globalProgressText");
+        const progBar = document.getElementById("globalProgressBar");
+        const stuText = document.getElementById("globalStudentsText");
+        if (progText) progText.textContent = `${completeGroups}/${DEFAULT_GROUPS.length} completos`;
+        if (progBar) {
+          progBar.style.width = `${Math.round((completeGroups / DEFAULT_GROUPS.length) * 100)}%`;
+          progBar.classList.toggle("done", completeGroups === DEFAULT_GROUPS.length);
+        }
+        if (stuText) stuText.textContent = `${gradedStudents} de ${STUDENTS.length} alumnos con nota`;
+      }
+
+      function renderSidebar() {
+        const dayFiltersEl = document.getElementById("dayFilters");
+        const filters = [
+          { key: "all", label: "Todos" },
+          { key: 1, label: "Día 1" },
+          { key: 2, label: "Día 2" },
+          { key: 3, label: "Día 3" }
+        ];
+
+        dayFiltersEl.innerHTML = filters.map(f => {
+          const list = getFilteredGroups(f.key);
+          const done = list.filter(g => computeGroupStats(g.id).status === "complete").length;
+          const active = String(ui.dayFilter) === String(f.key) ? "active" : "";
+          return `
+            <button type="button" class="day-pill ${active}" data-day-filter="${f.key}" role="tab" aria-selected="${active ? "true" : "false"}">
+              <span>${f.label}</span>
+              <small>${done}/${list.length}</small>
+            </button>
+          `;
+        }).join("");
+
+        const visibleGroups = getFilteredGroups(ui.dayFilter);
+        const summaryEl = document.getElementById("sidebarDaySummary");
+        if (summaryEl) {
+          summaryEl.textContent = visibleGroups.length === 1 ? "1 grupo" : `${visibleGroups.length} grupos`;
+        }
+
+        // Ensure selectedGroupId belongs to visible list if non-empty
+        if (visibleGroups.length > 0 && !visibleGroups.some(g => g.id === ui.selectedGroupId)) {
+          ui.selectedGroupId = visibleGroups[0].id;
+        }
+
+        const listEl = document.getElementById("groupList");
+        if (visibleGroups.length === 0) {
+          listEl.innerHTML = `<div class="empty-sidebar">No hay grupos asignados a este día.<br/>Puedes cambiar el día de cualquier grupo desde su cabecera.</div>`;
+        } else {
+          listEl.innerHTML = visibleGroups.map(g => {
+            const st = computeGroupStats(g.id);
+            const members = getGroupMembers(g.id);
+            const gDay = state.groups[g.id].day;
+            const isActive = g.id === ui.selectedGroupId;
+            const chipCls = st.status === "complete" ? "chip-done" : (st.status === "partial" ? "chip-partial" : "chip-pending");
+            const scoreStr = st.groupScore !== null ? fmt2(st.groupScore) : "—";
+            const pct = Math.round((st.scoredCount / st.totalCriteria) * 100);
+            return `
+              <button type="button" class="group-item ${isActive ? "active" : ""}" data-select-group="${g.id}">
+                <div class="group-item-top">
+                  <span class="group-item-name">${escapeHtml(g.name)}</span>
+                  <span class="group-score-chip ${chipCls}">${scoreStr}</span>
+                </div>
+                <div class="group-item-meta">
+                  <span>${members.length} alumnos · ${st.scoredCount}/${st.totalCriteria}</span>
+                  <span class="day-tag">Día ${gDay}</span>
+                </div>
+                <div class="mini-progress">
+                  <div class="mini-progress-bar ${st.status === "complete" ? "done" : ""}" style="width:${pct}%"></div>
+                </div>
+              </button>
+            `;
+          }).join("");
+        }
+
+        updateHeaderBadges();
+      }
+
+      /* ================================================================
+         RENDERING: MAIN GRADING VIEW
+         ================================================================ */
+      function renderCriterionRow(c, groupScores) {
+        const val = groupScores[c.id];
+        const hasVal = val !== undefined && val !== null && val !== "";
+        const numVal = hasVal ? Number(val) : null;
+        const w = round2(Number(state.weights[c.id]) || 0);
+        const isExactPreset = hasVal && LEVELS.some(l => Math.abs(l.val - numVal) < 0.001);
+
+        const levelBtns = LEVELS.map(l => {
+          const isMatch = hasVal && Math.abs(l.val - numVal) < 0.001;
+          return `
+            <button type="button"
+                    class="level-btn ${isMatch ? l.cls : ""}"
+                    data-crit-id="${c.id}"
+                    data-level-val="${l.val}"
+                    title="${l.label} (${l.val})">
+              <span class="lvl-num">${l.val}</span>
+              <span class="lvl-lbl">${l.label}</span>
+            </button>
+          `;
+        }).join("");
+
+        return `
+          <div class="criterion-row ${hasVal ? "scored" : ""}" data-row-crit="${c.id}">
+            <div class="criterion-info">
+              <div class="criterion-code">${escapeHtml(c.code)}</div>
+              <div class="criterion-text">
+                <div class="criterion-title-line">
+                  <span class="criterion-title">${escapeHtml(c.title)}</span>
+                  <span class="criterion-weight">${w}%</span>
+                </div>
+                <div class="criterion-desc">${escapeHtml(c.desc)}</div>
+              </div>
+            </div>
+            <div class="criterion-controls">
+              <div class="level-group" role="group" aria-label="Niveles para ${escapeHtml(c.title)}">
+                ${levelBtns}
+              </div>
+              <div class="fine-input-wrap">
+                <input type="number"
+                       class="fine-input ${hasVal && !isExactPreset ? "custom-val" : ""}"
+                       min="0" max="10" step="0.1"
+                       placeholder="—"
+                       value="${hasVal ? numVal : ""}"
+                       data-fine-crit="${c.id}"
+                       aria-label="Nota exacta para ${escapeHtml(c.title)}" />
+                <button type="button" class="clear-crit-btn" data-clear-crit="${c.id}" title="Borrar puntuación de este criterio" aria-label="Borrar puntuación">&times;</button>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      function renderMemberRow(student, groupScore) {
+        const res = computeStudentGrade(student);
+        const deltaVal = res.delta;
+        const deltaCls = deltaVal > 0 ? "pos" : (deltaVal < 0 ? "neg" : "");
+        const deltaFormatted = deltaVal > 0 ? `+${fmt2(deltaVal)}` : (deltaVal < 0 ? fmt2(deltaVal) : "0.00");
+        const deltaPillCls = deltaVal > 0 ? "delta-pos" : (deltaVal < 0 ? "delta-neg" : "delta-zero");
+
+        return `
+          <div class="member-row" data-member-id="${student.id}">
+            <div class="member-identity">
+              <div class="avatar" aria-hidden="true">${escapeHtml(getInitials(student.displayName))}</div>
+              <div class="member-names">
+                <div class="member-display" title="${escapeHtml(student.displayName)}">${escapeHtml(student.displayName)}</div>
+                <div class="member-meta">ID ${escapeHtml(student.id)} · ${escapeHtml(student.sisLoginId)}</div>
+              </div>
+            </div>
+
+            <div class="adj-controls">
+              <div class="adj-btn-group" role="group" aria-label="Ajuste rápido para ${escapeHtml(student.displayName)}">
+                <button type="button" class="adj-btn neg" data-adj-student="${student.id}" data-adj-step="-1" title="Restar 1 punto">-1</button>
+                <button type="button" class="adj-btn neg" data-adj-student="${student.id}" data-adj-step="-0.5" title="Restar 0.5 puntos">-0.5</button>
+                <button type="button" class="adj-btn neg" data-adj-student="${student.id}" data-adj-step="-0.25" title="Restar 0.25 puntos">-0.25</button>
+                <button type="button" class="adj-btn" data-adj-reset="${student.id}" title="Dejar ajuste en 0">0</button>
+                <button type="button" class="adj-btn pos" data-adj-student="${student.id}" data-adj-step="0.25" title="Sumar 0.25 puntos">+0.25</button>
+                <button type="button" class="adj-btn pos" data-adj-student="${student.id}" data-adj-step="0.5" title="Sumar 0.5 puntos">+0.5</button>
+                <button type="button" class="adj-btn pos" data-adj-student="${student.id}" data-adj-step="1" title="Sumar 1 punto">+1</button>
+              </div>
+              <input type="number"
+                     class="adj-input ${deltaCls}"
+                     min="-10" max="10" step="0.05"
+                     value="${deltaVal}"
+                     data-adj-input="${student.id}"
+                     aria-label="Ajuste numérico individual para ${escapeHtml(student.displayName)}" />
+            </div>
+
+            <input type="text"
+                   class="member-note-input"
+                   placeholder="Motivo del ajuste (opcional)..."
+                   value="${escapeHtml(res.note)}"
+                   data-adj-note="${student.id}"
+                   aria-label="Motivo del ajuste para ${escapeHtml(student.displayName)}" />
+
+            <div class="member-final-box">
+              <div class="member-final-score ${res.finalScore === null ? "muted" : ""}" data-member-final="${student.id}">
+                ${res.finalScore !== null ? fmt2(res.finalScore) : "—"}
+              </div>
+              <span class="delta-pill ${deltaPillCls}" data-member-delta="${student.id}">
+                ${deltaVal === 0 ? "Sin ajuste" : deltaFormatted}${res.clamped ? " (tope)" : ""}
+              </span>
+            </div>
+          </div>
+        `;
+      }
+
+      function renderGradingMain() {
+        const container = document.getElementById("gradingMain");
+        const group = DEFAULT_GROUPS.find(g => g.id === ui.selectedGroupId);
+        if (!group) {
+          container.innerHTML = `<div class="rubric-card" style="padding:32px; text-align:center; color:var(--ink-muted);">Selecciona un grupo para comenzar a evaluar.</div>`;
+          return;
+        }
+
+        const gState = state.groups[group.id];
+        const stats = computeGroupStats(group.id);
+        const members = getGroupMembers(group.id);
+        const wt = getTotalWeights();
+
+        const visibleGroups = getFilteredGroups(ui.dayFilter);
+        const currentIdx = visibleGroups.findIndex(g => g.id === group.id);
+        const nextGroup = visibleGroups.length > 1 ? visibleGroups[(currentIdx + 1) % visibleGroups.length] : null;
+
+        const statusMap = {
+          pending: { cls: "status-pending", txt: "Pendiente (0/17)" },
+          partial: { cls: "status-partial", txt: `En curso (${stats.scoredCount}/${stats.totalCriteria})` },
+          complete: { cls: "status-complete", txt: `Evaluado (${stats.scoredCount}/${stats.totalCriteria})` }
+        };
+        const stMeta = statusMap[stats.status];
+
+        const contentCriteria = CRITERIA.filter(c => c.block === "content");
+        const deliveryCriteria = CRITERIA.filter(c => c.block === "delivery");
+
+        const contentSubTxt = stats.contentAvg !== null ? `Media bloque: ${fmt2(stats.contentAvg)} / 10` : "Sin evaluar";
+        const deliverySubTxt = stats.deliveryAvg !== null ? `Media bloque: ${fmt2(stats.deliveryAvg)} / 10` : "Sin evaluar";
+
+        container.innerHTML = `
+          <section class="group-scoreboard" aria-label="Cabecera del grupo">
+            <div class="scoreboard-left">
+              <div class="scoreboard-title-row">
+                <h1>${escapeHtml(group.name)}</h1>
+                <span class="member-count-pill">${members.length} integrantes</span>
+              </div>
+              <div class="day-assign-row">
+                <span class="day-assign-label">Jornada asignada:</span>
+                <div class="day-segmented" role="group" aria-label="Asignar día de presentación">
+                  ${[1, 2, 3].map(d => `
+                    <button type="button" class="day-seg-btn ${gState.day === d ? "active" : ""}" data-set-group-day="${d}">Día ${d}</button>
+                  `).join("")}
+                </div>
+              </div>
+            </div>
+
+            <div class="scoreboard-right">
+              <div class="score-breakdown">
+                <span class="status-badge ${stMeta.cls}" id="liveStatusBadge">${stMeta.txt}</span>
+                <span class="tabular" id="liveBlockSubtotals">
+                  Contenido: ${stats.contentAvg !== null ? fmt2(stats.contentAvg) : "—"} · Exposición: ${stats.deliveryAvg !== null ? fmt2(stats.deliveryAvg) : "—"}
+                </span>
+              </div>
+
+              <div class="big-score-box" title="Nota ponderada actual del grupo sobre 10">
+                <span class="big-score-val" id="liveGroupScore">${stats.groupScore !== null ? fmt2(stats.groupScore) : "—"}</span>
+                <span class="big-score-max">/ 10</span>
+              </div>
+
+              <div class="scoreboard-nav">
+                <button type="button" class="btn btn-sm" id="btnClearGroup" title="Limpiar puntuaciones de este grupo">Limpiar</button>
+                ${nextGroup ? `<button type="button" class="btn btn-sm" id="btnNextGroup" data-next-group="${nextGroup.id}" title="Ir al siguiente grupo">Siguiente &rarr;</button>` : ""}
+              </div>
+            </div>
+          </section>
+
+          <section class="rubric-card" aria-label="Bloque A: Estructura y Contenido del Proyecto">
+            <div class="section-head">
+              <h2>
+                <span>Bloque A · Estructura y Contenido del Proyecto</span>
+                <span class="section-weight-pill">${wt.content}%</span>
+              </h2>
+              <div class="section-meta">
+                <span class="tabular" id="contentBlockCount">${stats.contentScored}/${stats.contentTotal} criterios</span>
+                <strong class="tabular" id="contentBlockAvg">${contentSubTxt}</strong>
+              </div>
+            </div>
+            <div class="criterion-list">
+              ${contentCriteria.map(c => renderCriterionRow(c, gState.scores)).join("")}
+            </div>
+          </section>
+
+          <section class="rubric-card" aria-label="Bloque B: Exposición Oral y Calidad de la Presentación">
+            <div class="section-head">
+              <h2>
+                <span>Bloque B · Exposición Oral y Presentación</span>
+                <span class="section-weight-pill">${wt.delivery}%</span>
+              </h2>
+              <div class="section-meta">
+                <span class="tabular" id="deliveryBlockCount">${stats.deliveryScored}/${stats.deliveryTotal} criterios</span>
+                <strong class="tabular" id="deliveryBlockAvg">${deliverySubTxt}</strong>
+              </div>
+            </div>
+            <div class="criterion-list">
+              ${deliveryCriteria.map(c => renderCriterionRow(c, gState.scores)).join("")}
+            </div>
+            <div class="group-notes-box">
+              <label for="groupNotesInput">Observaciones generales del grupo (opcional)</label>
+              <textarea id="groupNotesInput" class="group-notes-textarea" placeholder="Comentarios sobre la exposición, preguntas realizadas en Q&A, puntos fuertes o aspectos a mejorar...">${escapeHtml(gState.notes || "")}</textarea>
+            </div>
+          </section>
+
+          <section class="rubric-card" aria-label="Ajustes individuales por miembro del equipo">
+            <div class="section-head">
+              <h2>
+                <span>Ajustes Individuales del Equipo</span>
+                <span class="section-weight-pill">${members.length} alumnos</span>
+              </h2>
+              <div class="section-meta">
+                <span>Nota individual = Nota grupo ± ajuste (acotada entre 0.00 y 10.00)</span>
+              </div>
+            </div>
+            <div class="members-list" id="membersList">
+              ${members.map(s => renderMemberRow(s, stats.groupScore)).join("")}
+            </div>
+          </section>
+        `;
+      }
+
+      /* Fast partial update when scoring a criterion so focus / scroll never jumps */
+      function refreshGroupScoresInPlace() {
+        const groupId = ui.selectedGroupId;
+        const stats = computeGroupStats(groupId);
+        const members = getGroupMembers(groupId);
+
+        const scoreEl = document.getElementById("liveGroupScore");
+        if (scoreEl) scoreEl.textContent = stats.groupScore !== null ? fmt2(stats.groupScore) : "—";
+
+        const badgeEl = document.getElementById("liveStatusBadge");
+        if (badgeEl) {
+          badgeEl.className = `status-badge status-${stats.status}`;
+          badgeEl.textContent = stats.status === "pending"
+            ? "Pendiente (0/17)"
+            : (stats.status === "complete" ? `Evaluado (${stats.scoredCount}/${stats.totalCriteria})` : `En curso (${stats.scoredCount}/${stats.totalCriteria})`);
+        }
+
+        const subEl = document.getElementById("liveBlockSubtotals");
+        if (subEl) {
+          subEl.textContent = `Contenido: ${stats.contentAvg !== null ? fmt2(stats.contentAvg) : "—"} · Exposición: ${stats.deliveryAvg !== null ? fmt2(stats.deliveryAvg) : "—"}`;
+        }
+
+        const cCount = document.getElementById("contentBlockCount");
+        const cAvg = document.getElementById("contentBlockAvg");
+        if (cCount) cCount.textContent = `${stats.contentScored}/${stats.contentTotal} criterios`;
+        if (cAvg) cAvg.textContent = stats.contentAvg !== null ? `Media bloque: ${fmt2(stats.contentAvg)} / 10` : "Sin evaluar";
+
+        const dCount = document.getElementById("deliveryBlockCount");
+        const dAvg = document.getElementById("deliveryBlockAvg");
+        if (dCount) dCount.textContent = `${stats.deliveryScored}/${stats.deliveryTotal} criterios`;
+        if (dAvg) dAvg.textContent = stats.deliveryAvg !== null ? `Media bloque: ${fmt2(stats.deliveryAvg)} / 10` : "Sin evaluar";
+
+        members.forEach(s => {
+          const res = computeStudentGrade(s);
+          const finalEl = document.querySelector(`[data-member-final="${s.id}"]`);
+          const deltaEl = document.querySelector(`[data-member-delta="${s.id}"]`);
+          const inpEl = document.querySelector(`[data-adj-input="${s.id}"]`);
+          if (finalEl) {
+            finalEl.textContent = res.finalScore !== null ? fmt2(res.finalScore) : "—";
+            finalEl.classList.toggle("muted", res.finalScore === null);
+          }
+          if (deltaEl) {
+            const d = res.delta;
+            deltaEl.className = `delta-pill ${d > 0 ? "delta-pos" : (d < 0 ? "delta-neg" : "delta-zero")}`;
+            const formatted = d > 0 ? `+${fmt2(d)}` : (d < 0 ? fmt2(d) : "Sin ajuste");
+            deltaEl.textContent = `${formatted}${res.clamped ? " (tope)" : ""}`;
+          }
+          if (inpEl) {
+            inpEl.classList.toggle("pos", res.delta > 0);
+            inpEl.classList.toggle("neg", res.delta < 0);
+          }
+        });
+
+        renderSidebar();
+      }
+
+      function updateSingleCriterionRow(critId) {
+        const gState = state.groups[ui.selectedGroupId];
+        const crit = CRITERIA.find(c => c.id === critId);
+        const row = document.querySelector(`[data-row-crit="${critId}"]`);
+        if (!row || !crit) return;
+
+        const val = gState.scores[critId];
+        const hasVal = val !== undefined && val !== null && val !== "";
+        const numVal = hasVal ? Number(val) : null;
+        const isExactPreset = hasVal && LEVELS.some(l => Math.abs(l.val - numVal) < 0.001);
+
+        row.classList.toggle("scored", hasVal);
+
+        row.querySelectorAll(".level-btn").forEach(btn => {
+          const lv = Number(btn.dataset.levelVal);
+          const lObj = LEVELS.find(l => l.val === lv);
+          btn.classList.remove("active-0", "active-25", "active-50", "active-75", "active-100");
+          if (hasVal && Math.abs(lv - numVal) < 0.001 && lObj) {
+            btn.classList.add(lObj.cls);
+          }
+        });
+
+        const fineInput = row.querySelector(`[data-fine-crit="${critId}"]`);
+        if (fineInput && document.activeElement !== fineInput) {
+          fineInput.value = hasVal ? numVal : "";
+        }
+        if (fineInput) {
+          fineInput.classList.toggle("custom-val", hasVal && !isExactPreset);
+        }
+      }
+
+      /* ================================================================
+         RENDERING: SUMMARY VIEW (ALL 40 STUDENTS)
+         ================================================================ */
+      function renderSummaryView() {
+        const completeGroups = DEFAULT_GROUPS.filter(g => computeGroupStats(g.id).status === "complete").length;
+        const partialGroups = DEFAULT_GROUPS.filter(g => computeGroupStats(g.id).status === "partial").length;
+
+        const allGrades = STUDENTS.map(s => ({ student: s, grade: computeStudentGrade(s) }));
+        const evaluated = allGrades.filter(x => x.grade.finalScore !== null);
+        const adjustedCount = allGrades.filter(x => Math.abs(x.grade.delta) > 0.001).length;
+
+        const avg = evaluated.length
+          ? round2(evaluated.reduce((acc, x) => acc + x.grade.finalScore, 0) / evaluated.length)
+          : null;
+        const minScore = evaluated.length ? Math.min(...evaluated.map(x => x.grade.finalScore)) : null;
+        const maxScore = evaluated.length ? Math.max(...evaluated.map(x => x.grade.finalScore)) : null;
+
+        document.getElementById("summaryKpis").innerHTML = `
+          <div class="kpi-card">
+            <div class="kpi-label">Grupos evaluados</div>
+            <div class="kpi-value">${completeGroups} / ${DEFAULT_GROUPS.length}</div>
+            <div class="kpi-sub">${partialGroups > 0 ? `${partialGroups} en curso` : "Todos al día"}</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Alumnos con nota</div>
+            <div class="kpi-value">${evaluated.length} / ${STUDENTS.length}</div>
+            <div class="kpi-sub">${STUDENTS.length - evaluated.length} pendientes de evaluar</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Nota media final</div>
+            <div class="kpi-value">${avg !== null ? fmt2(avg) : "—"}</div>
+            <div class="kpi-sub">${minScore !== null ? `Rango: ${fmt2(minScore)} – ${fmt2(maxScore)}` : "Sin calificaciones aún"}</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Ajustes individuales</div>
+            <div class="kpi-value">${adjustedCount}</div>
+            <div class="kpi-sub">Alumnos con +/− puntos respecto al grupo</div>
+          </div>
+        `;
+
+        // Day filter buttons
+        const dayFilterEl = document.getElementById("summaryDayFilter");
+        dayFilterEl.innerHTML = [
+          { key: "all", label: "Todos" },
+          { key: 1, label: "Día 1" },
+          { key: 2, label: "Día 2" },
+          { key: 3, label: "Día 3" }
+        ].map(f => `
+          <button type="button" class="day-seg-btn ${String(ui.summaryDayFilter) === String(f.key) ? "active" : ""}" data-summary-day="${f.key}">${f.label}</button>
+        `).join("");
+
+        // Filter & sort rows
+        const q = ui.summarySearch.trim().toLowerCase();
+        let rows = allGrades.filter(({ student }) => {
+          const gDay = state.groups[student.groupId].day;
+          if (ui.summaryDayFilter !== "all" && gDay !== Number(ui.summaryDayFilter)) return false;
+          if (!q) return true;
+          const groupObj = DEFAULT_GROUPS.find(g => g.id === student.groupId);
+          return student.displayName.toLowerCase().includes(q)
+            || student.canvasName.toLowerCase().includes(q)
+            || (groupObj && groupObj.name.toLowerCase().includes(q));
+        });
+
+        if (ui.summarySort === "group") {
+          rows = rows.slice().sort((a, b) => {
+            const gA = DEFAULT_GROUPS.find(g => g.id === a.student.groupId).name;
+            const gB = DEFAULT_GROUPS.find(g => g.id === b.student.groupId).name;
+            if (gA !== gB) return gA.localeCompare(gB, "es");
+            return a.student.displayName.localeCompare(b.student.displayName, "es");
+          });
+        }
+
+        const tbody = document.getElementById("summaryTableBody");
+        if (!rows.length) {
+          tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:26px; color:var(--ink-muted);">No hay alumnos que coincidan con el filtro actual.</td></tr>`;
+          return;
+        }
+
+        tbody.innerHTML = rows.map(({ student, grade }) => {
+          const gObj = DEFAULT_GROUPS.find(g => g.id === student.groupId);
+          const gDay = state.groups[student.groupId].day;
+          const deltaStr = grade.delta === 0 ? "0.00" : (grade.delta > 0 ? `+${fmt2(grade.delta)}` : fmt2(grade.delta));
+          const deltaStyle = grade.delta > 0 ? "color:var(--emerald); font-weight:600;" : (grade.delta < 0 ? "color:var(--crimson); font-weight:600;" : "color:var(--ink-muted);");
+          const statusTag = grade.status === "complete"
+            ? `<span class="status-badge status-complete">Completo</span>`
+            : (grade.status === "partial" ? `<span class="status-badge status-partial">En curso</span>` : `<span class="status-badge status-pending">Pendiente</span>`);
+
+          return `
+            <tr>
+              <td>
+                <div style="font-weight:600;">${escapeHtml(student.displayName)}</div>
+                <div style="font-size:11px; color:var(--ink-muted); font-family:var(--font-mono);">${escapeHtml(student.canvasName)} · ID ${escapeHtml(student.id)}</div>
+              </td>
+              <td>
+                <button type="button" class="link-group" data-jump-group="${student.groupId}">${escapeHtml(gObj.name)}</button>
+              </td>
+              <td><span class="day-tag">Día ${gDay}</span></td>
+              <td class="num-col">${grade.groupScore !== null ? fmt2(grade.groupScore) : "—"}</td>
+              <td class="num-col" style="${deltaStyle}">${deltaStr}</td>
+              <td class="num-col" style="font-weight:700; font-size:14px; color:${grade.finalScore !== null ? "var(--navy)" : "var(--ink-muted)"};">
+                ${grade.finalScore !== null ? fmt2(grade.finalScore) : "—"}
+              </td>
+              <td>
+                <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                  ${statusTag}
+                  ${grade.note ? `<span style="font-size:12px; color:var(--ink-secondary);">${escapeHtml(grade.note)}</span>` : ""}
+                </div>
+              </td>
+            </tr>
+          `;
+        }).join("");
+      }
+
+      /* ================================================================
+         WEIGHTS MODAL
+         ================================================================ */
+      let draftWeights = {};
+
+      function openWeightsModal() {
+        draftWeights = { ...state.weights };
+        renderWeightsModalBody();
+        document.getElementById("weightsModal").classList.remove("hidden");
+      }
+
+      function renderWeightsModalBody() {
+        const grid = document.getElementById("weightsGrid");
+        const contentList = CRITERIA.filter(c => c.block === "content");
+        const deliveryList = CRITERIA.filter(c => c.block === "delivery");
+
+        const renderRow = c => `
+          <div class="weight-row">
+            <div class="criterion-code" style="margin:0;">${escapeHtml(c.code)}</div>
+            <div style="font-size:13px; font-weight:500;">${escapeHtml(c.title)}</div>
+            <div class="weight-input-wrap">
+              <input type="number" class="weight-input" min="0" max="100" step="0.5" value="${draftWeights[c.id]}" data-draft-weight="${c.id}" />
+              <span style="font-size:12px; color:var(--ink-muted);">%</span>
+            </div>
+          </div>
+        `;
+
+        grid.innerHTML = `
+          <div class="weight-group-label">Bloque A · Estructura y Contenido</div>
+          ${contentList.map(renderRow).join("")}
+          <div class="weight-group-label">Bloque B · Exposición Oral y Presentación</div>
+          ${deliveryList.map(renderRow).join("")}
+        `;
+        updateWeightsSumBanner();
+      }
+
+      function updateWeightsSumBanner() {
+        let cSum = 0, dSum = 0;
+        CRITERIA.forEach(c => {
+          const v = Number(draftWeights[c.id]) || 0;
+          if (c.block === "content") cSum += v;
+          else dSum += v;
+        });
+        const total = round2(cSum + dSum);
+        const bar = document.getElementById("weightsSumBar");
+        const split = document.getElementById("weightsBlockSplit");
+        const tot = document.getElementById("weightsTotalLabel");
+
+        split.textContent = `Contenido: ${round2(cSum).toFixed(1)}% · Exposición: ${round2(dSum).toFixed(1)}%`;
+        tot.textContent = `Total: ${total.toFixed(1)}%`;
+        const isExact = Math.abs(total - 100) < 0.05;
+        bar.classList.toggle("valid", isExact);
+        bar.classList.toggle("invalid", !isExact);
+      }
+
+      /* ================================================================
+         CANVAS CSV GENERATION & EXPORT MODAL
+         ================================================================ */
+      function csvEscape(value) {
+        const str = String(value === null || value === undefined ? "" : value);
+        if (/[",\r\n]/.test(str)) {
+          return `"${str.replace(/"/g, '""')}"`;
+        }
+        return str;
+      }
+
+      function buildCanvasCsv(columnName, includePartial) {
+        const colTitle = (columnName || "Final Project Presentation").trim() || "Final Project Presentation";
+        const lines = [];
+        // Header row matching Canvas LMS Gradebook format
+        lines.push(["Student", "ID", "SIS Login ID", "Section", colTitle].map(csvEscape).join(","));
+        // Points Possible row (exact 4 leading spaces as exported by Canvas)
+        lines.push(["    Points Possible", "", "", "", "10.00"].join(","));
+
+        let exportedCount = 0;
+        STUDENTS.forEach(student => {
+          const grade = computeStudentGrade(student);
+          let gradeCell = "";
+          if (grade.finalScore !== null) {
+            if (grade.status === "complete" || includePartial) {
+              gradeCell = fmt2(grade.finalScore);
+              exportedCount++;
+            }
+          }
+          lines.push([
+            csvEscape(student.canvasName),
+            csvEscape(student.id),
+            csvEscape(student.sisLoginId),
+            csvEscape(student.section),
+            csvEscape(gradeCell)
+          ].join(","));
+        });
+
+        return { csv: lines.join("\r\n") + "\r\n", exportedCount, lines };
+      }
+
+      function refreshExportModal() {
+        const colName = document.getElementById("canvasColumnName").value;
+        const includePartial = document.getElementById("includePartialGroups").checked;
+        const { exportedCount, lines } = buildCanvasCsv(colName, includePartial);
+
+        const completeGroups = DEFAULT_GROUPS.filter(g => computeGroupStats(g.id).status === "complete").length;
+        const partialGroups = DEFAULT_GROUPS.filter(g => computeGroupStats(g.id).status === "partial").length;
+        const pendingGroups = DEFAULT_GROUPS.length - completeGroups - partialGroups;
+
+        const notice = document.getElementById("exportStatusNotice");
+        if (completeGroups === DEFAULT_GROUPS.length) {
+          notice.className = "notice-box ok";
+          notice.innerHTML = `<strong>Listo para subir a Canvas:</strong> Los 9 grupos (40/40 alumnos) están completamente evaluados.`;
+        } else {
+          notice.className = "notice-box warn";
+          notice.innerHTML = `<strong>Exportación parcial:</strong> ${completeGroups} grupos completos, ${partialGroups} en curso y ${pendingGroups} pendientes. Se exportarán notas para <strong>${exportedCount} de 40 alumnos</strong> (el resto queda en blanco para poder completarlos en los siguientes días).`;
+        }
+
+        const previewLines = lines.slice(0, 8);
+        if (lines.length > 8) previewLines.push(`... (${lines.length - 8} filas más hasta completar los 40 alumnos)`);
+        document.getElementById("csvPreviewBox").textContent = previewLines.join("\n");
+      }
+
+      function openExportModal() {
+        document.getElementById("canvasColumnName").value = state.canvasColumnName || "Final Project Presentation";
+        refreshExportModal();
+        document.getElementById("exportModal").classList.remove("hidden");
+      }
+
+      function downloadFile(filename, content, mimeType) {
+        const blob = new Blob([content], { type: mimeType });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+      }
+
+      /* ================================================================
+         TOAST & MODAL HELPERS
+         ================================================================ */
+      let toastTimer = null;
+      function showToast(msg) {
+        const el = document.getElementById("toast");
+        el.textContent = msg;
+        el.classList.add("show");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => el.classList.remove("show"), 2600);
+      }
+
+      function closeModal(id) {
+        const el = document.getElementById(id);
+        if (el) el.classList.add("hidden");
+      }
+
+      function setView(viewName) {
+        ui.view = viewName;
+        document.getElementById("tabEvaluate").classList.toggle("active", viewName === "evaluate");
+        document.getElementById("tabSummary").classList.toggle("active", viewName === "summary");
+        document.getElementById("evaluateWorkspace").classList.toggle("hidden", viewName !== "evaluate");
+        document.getElementById("summaryView").classList.toggle("hidden", viewName !== "summary");
+
+        if (viewName === "summary") {
+          renderSummaryView();
+        } else {
+          renderSidebar();
+          renderGradingMain();
+        }
+      }
+
+      /* ================================================================
+         EVENT LISTENERS
+         ================================================================ */
+      // Top navigation
+      document.getElementById("tabEvaluate").addEventListener("click", () => setView("evaluate"));
+      document.getElementById("tabSummary").addEventListener("click", () => setView("summary"));
+      document.getElementById("btnWeights").addEventListener("click", openWeightsModal);
+      document.getElementById("btnBackup").addEventListener("click", () => {
+        document.getElementById("backupModal").classList.remove("hidden");
+      });
+      document.getElementById("btnExportModal").addEventListener("click", openExportModal);
+      document.getElementById("btnExportFromSummary").addEventListener("click", openExportModal);
+
+      // Close modals
+      document.querySelectorAll("[data-close-modal]").forEach(btn => {
+        btn.addEventListener("click", () => closeModal(btn.dataset.closeModal));
+      });
+      document.querySelectorAll(".modal-backdrop").forEach(backdrop => {
+        backdrop.addEventListener("click", e => {
+          if (e.target === backdrop) backdrop.classList.add("hidden");
+        });
+      });
+      document.addEventListener("keydown", e => {
+        if (e.key === "Escape") {
+          document.querySelectorAll(".modal-backdrop").forEach(m => m.classList.add("hidden"));
+        }
+      });
+
+      // Sidebar day filter & group selection
+      document.getElementById("dayFilters").addEventListener("click", e => {
+        const btn = e.target.closest("[data-day-filter]");
+        if (!btn) return;
+        const val = btn.dataset.dayFilter;
+        ui.dayFilter = val === "all" ? "all" : Number(val);
+        renderSidebar();
+        renderGradingMain();
+      });
+
+      document.getElementById("groupList").addEventListener("click", e => {
+        const btn = e.target.closest("[data-select-group]");
+        if (!btn) return;
+        ui.selectedGroupId = btn.dataset.selectGroup;
+        renderSidebar();
+        renderGradingMain();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+
+      // Main grading area delegated events
+      const gradingMain = document.getElementById("gradingMain");
+
+      gradingMain.addEventListener("click", e => {
+        const gId = ui.selectedGroupId;
+        const gState = state.groups[gId];
+        if (!gState) return;
+
+        // Reassign group day
+        const dayBtn = e.target.closest("[data-set-group-day]");
+        if (dayBtn) {
+          const newDay = Number(dayBtn.dataset.setGroupDay);
+          gState.day = newDay;
+          persistState();
+          // If current day filter would hide this group, follow it or keep filter coherent
+          if (ui.dayFilter !== "all" && ui.dayFilter !== newDay) {
+            ui.dayFilter = newDay;
+          }
+          renderSidebar();
+          renderGradingMain();
+          const gName = DEFAULT_GROUPS.find(g => g.id === gId).name;
+          showToast(`${gName} asignado al Día ${newDay}`);
+          return;
+        }
+
+        // Next group button
+        const nextBtn = e.target.closest("[data-next-group]");
+        if (nextBtn) {
+          ui.selectedGroupId = nextBtn.dataset.nextGroup;
+          renderSidebar();
+          renderGradingMain();
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          return;
+        }
+
+        // Clear group
+        if (e.target.closest("#btnClearGroup")) {
+          const gName = DEFAULT_GROUPS.find(g => g.id === gId).name;
+          if (!confirm(`¿Limpiar todas las puntuaciones de la rúbrica de "${gName}"?`)) return;
+          gState.scores = {};
+          gState.notes = "";
+          persistState();
+          renderSidebar();
+          renderGradingMain();
+          showToast(`Puntuaciones de ${gName} limpiadas`);
+          return;
+        }
+
+        // Click level button
+        const lvlBtn = e.target.closest("[data-level-val]");
+        if (lvlBtn) {
+          const critId = lvlBtn.dataset.critId;
+          const val = Number(lvlBtn.dataset.levelVal);
+          gState.scores[critId] = val;
+          persistState();
+          updateSingleCriterionRow(critId);
+          refreshGroupScoresInPlace();
+          return;
+        }
+
+        // Clear single criterion
+        const clrBtn = e.target.closest("[data-clear-crit]");
+        if (clrBtn) {
+          const critId = clrBtn.dataset.clearCrit;
+          delete gState.scores[critId];
+          persistState();
+          updateSingleCriterionRow(critId);
+          refreshGroupScoresInPlace();
+          return;
+        }
+
+        // Individual adjustment step button
+        const adjBtn = e.target.closest("[data-adj-student]");
+        if (adjBtn) {
+          const sid = adjBtn.dataset.adjStudent;
+          const step = Number(adjBtn.dataset.adjStep);
+          const cur = Number(state.studentAdjustments[sid].delta) || 0;
+          const next = round2(clamp(cur + step, -10, 10));
+          state.studentAdjustments[sid].delta = next;
+          const inp = document.querySelector(`[data-adj-input="${sid}"]`);
+          if (inp) inp.value = next;
+          persistState();
+          refreshGroupScoresInPlace();
+          return;
+        }
+
+        // Reset individual adjustment
+        const resetAdj = e.target.closest("[data-adj-reset]");
+        if (resetAdj) {
+          const sid = resetAdj.dataset.adjReset;
+          state.studentAdjustments[sid].delta = 0;
+          const inp = document.querySelector(`[data-adj-input="${sid}"]`);
+          if (inp) inp.value = 0;
+          persistState();
+          refreshGroupScoresInPlace();
+          return;
+        }
+      });
+
+      gradingMain.addEventListener("input", e => {
+        const gId = ui.selectedGroupId;
+        const gState = state.groups[gId];
+        if (!gState) return;
+
+        // Fine numeric criterion score
+        const fineInput = e.target.closest("[data-fine-crit]");
+        if (fineInput) {
+          const critId = fineInput.dataset.fineCrit;
+          const raw = fineInput.value.trim();
+          if (raw === "") {
+            delete gState.scores[critId];
+          } else {
+            const num = Number(raw);
+            if (Number.isFinite(num)) {
+              gState.scores[critId] = round2(clamp(num, 0, 10));
+            }
+          }
+          persistState();
+          updateSingleCriterionRow(critId);
+          refreshGroupScoresInPlace();
+          return;
+        }
+
+        // Group notes
+        if (e.target.id === "groupNotesInput") {
+          gState.notes = e.target.value;
+          persistState();
+          return;
+        }
+
+        // Individual delta numeric input
+        const adjInput = e.target.closest("[data-adj-input]");
+        if (adjInput) {
+          const sid = adjInput.dataset.adjInput;
+          const raw = adjInput.value.trim();
+          const num = raw === "" || raw === "-" ? 0 : Number(raw);
+          if (Number.isFinite(num)) {
+            state.studentAdjustments[sid].delta = round2(clamp(num, -10, 10));
+            persistState();
+            refreshGroupScoresInPlace();
+          }
+          return;
+        }
+
+        // Individual note
+        const noteInput = e.target.closest("[data-adj-note]");
+        if (noteInput) {
+          const sid = noteInput.dataset.adjNote;
+          state.studentAdjustments[sid].note = noteInput.value;
+          persistState();
+        }
+      });
+
+      // Summary view events
+      document.getElementById("summaryDayFilter").addEventListener("click", e => {
+        const btn = e.target.closest("[data-summary-day]");
+        if (!btn) return;
+        const val = btn.dataset.summaryDay;
+        ui.summaryDayFilter = val === "all" ? "all" : Number(val);
+        renderSummaryView();
+      });
+
+      document.getElementById("summarySearch").addEventListener("input", e => {
+        ui.summarySearch = e.target.value;
+        renderSummaryView();
+      });
+
+      document.getElementById("summarySortToggle").addEventListener("click", e => {
+        const btn = e.target.closest("[data-sort]");
+        if (!btn) return;
+        ui.summarySort = btn.dataset.sort;
+        document.querySelectorAll("#summarySortToggle .day-seg-btn").forEach(b => {
+          b.classList.toggle("active", b.dataset.sort === ui.summarySort);
+        });
+        renderSummaryView();
+      });
+
+      document.getElementById("summaryTableBody").addEventListener("click", e => {
+        const btn = e.target.closest("[data-jump-group]");
+        if (!btn) return;
+        ui.selectedGroupId = btn.dataset.jumpGroup;
+        ui.dayFilter = "all";
+        setView("evaluate");
+      });
+
+      // Weights modal events
+      document.getElementById("weightsGrid").addEventListener("input", e => {
+        const inp = e.target.closest("[data-draft-weight]");
+        if (!inp) return;
+        const val = Number(inp.value);
+        draftWeights[inp.dataset.draftWeight] = Number.isFinite(val) && val >= 0 ? val : 0;
+        updateWeightsSumBanner();
+      });
+
+      document.getElementById("btnNormalizeWeights").addEventListener("click", () => {
+        const sum = CRITERIA.reduce((acc, c) => acc + (Number(draftWeights[c.id]) || 0), 0);
+        if (sum <= 0) {
+          showToast("Introduce algún peso mayor que 0 para normalizar");
+          return;
+        }
+        let running = 0;
+        CRITERIA.forEach((c, idx) => {
+          if (idx === CRITERIA.length - 1) {
+            draftWeights[c.id] = round2(Math.max(0, 100 - running));
+          } else {
+            const w = round2(((Number(draftWeights[c.id]) || 0) / sum) * 100);
+            draftWeights[c.id] = w;
+            running += w;
+          }
+        });
+        renderWeightsModalBody();
+        showToast("Pesos normalizados exactamente al 100%");
+      });
+
+      document.getElementById("btnResetWeights").addEventListener("click", () => {
+        CRITERIA.forEach(c => { draftWeights[c.id] = c.defaultWeight; });
+        renderWeightsModalBody();
+        showToast("Pesos restaurados a los valores por defecto");
+      });
+
+      document.getElementById("btnSaveWeights").addEventListener("click", () => {
+        state.weights = { ...draftWeights };
+        persistState();
+        closeModal("weightsModal");
+        renderSidebar();
+        if (ui.view === "evaluate") renderGradingMain();
+        else renderSummaryView();
+        showToast("Pesos de la rúbrica actualizados");
+      });
+
+      // Export CSV modal events
+      document.getElementById("canvasColumnName").addEventListener("input", e => {
+        state.canvasColumnName = e.target.value;
+        persistState();
+        refreshExportModal();
+      });
+
+      document.getElementById("includePartialGroups").addEventListener("change", refreshExportModal);
+
+      document.getElementById("btnDownloadCsv").addEventListener("click", () => {
+        const colName = document.getElementById("canvasColumnName").value;
+        const includePartial = document.getElementById("includePartialGroups").checked;
+        state.canvasColumnName = colName;
+        persistState();
+
+        const { csv, exportedCount } = buildCanvasCsv(colName, includePartial);
+        const today = new Date().toISOString().slice(0, 10);
+        downloadFile(`canvas_rubrica_mkt_${today}.csv`, csv, "text/csv;charset=utf-8");
+        closeModal("exportModal");
+        showToast(`CSV para Canvas descargado (${exportedCount}/40 alumnos con nota)`);
+      });
+
+      // Backup modal events
+      document.getElementById("btnExportJson").addEventListener("click", () => {
+        const today = new Date().toISOString().slice(0, 10);
+        downloadFile(`respaldo_rubrica_mkt_${today}.json`, JSON.stringify(state, null, 2), "application/json;charset=utf-8");
+        showToast("Copia de seguridad JSON descargada");
+      });
+
+      document.getElementById("btnImportJson").addEventListener("click", () => {
+        document.getElementById("jsonFileInput").click();
+      });
+
+      document.getElementById("jsonFileInput").addEventListener("change", e => {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          try {
+            const parsed = JSON.parse(String(reader.result));
+            if (!parsed || !parsed.groups || !parsed.studentAdjustments) {
+              throw new Error("Formato de archivo no válido");
+            }
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(parsed));
+            state = loadState();
+            persistState();
+            closeModal("backupModal");
+            renderSidebar();
+            if (ui.view === "evaluate") renderGradingMain();
+            else renderSummaryView();
+            showToast("Copia de seguridad restaurada correctamente");
+          } catch (err) {
+            alert("No se pudo restaurar el archivo JSON. Verifica que sea una copia exportada desde esta rúbrica.");
+          }
+          e.target.value = "";
+        };
+        reader.readAsText(file, "utf-8");
+      });
+
+      document.getElementById("btnResetAll").addEventListener("click", () => {
+        if (!confirm("¿Seguro que quieres borrar TODAS las evaluaciones y ajustes individuales de los 9 grupos? Esta acción no se puede deshacer si no tienes una copia JSON.")) return;
+        DEFAULT_GROUPS.forEach(g => {
+          state.groups[g.id].scores = {};
+          state.groups[g.id].notes = "";
+        });
+        STUDENTS.forEach(s => {
+          state.studentAdjustments[s.id] = { delta: 0, note: "" };
+        });
+        persistState();
+        closeModal("backupModal");
+        renderSidebar();
+        if (ui.view === "evaluate") renderGradingMain();
+        else renderSummaryView();
+        showToast("Todas las evaluaciones han sido reiniciadas");
+      });
+
+      /* ================================================================
+         INITIAL RENDER
+         ================================================================ */
+      renderSidebar();
+      renderGradingMain();
+    })();
+  </script>
+</body>
+</html>
